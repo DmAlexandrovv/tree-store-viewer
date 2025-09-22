@@ -6,6 +6,7 @@ export default class TreeStore implements TreeStoreInterface {
   _items: Array<TreeStoreItemInterface>
   _itemsMap: Map<string | number, TreeStoreItemInterface>
   _childrenMap: Map<string | number, TreeStoreItemInterface[]>
+  _parentMap: Map<string | number, string | number | null>
   [ITEMS_ID]: Array<TreeStoreItemInterface>
 
   constructor(items: Array<TreeStoreItemInterface>) {
@@ -13,6 +14,7 @@ export default class TreeStore implements TreeStoreInterface {
     this._items = items;
     this._itemsMap = new Map();
     this._childrenMap = new Map();
+    this._parentMap = new Map();
 
     this.buildTree(items);
   }
@@ -20,10 +22,12 @@ export default class TreeStore implements TreeStoreInterface {
   private buildTree(items: Array<TreeStoreItemInterface>): void {
     this._itemsMap.clear();
     this._childrenMap.clear();
+    this._parentMap.clear();
 
     items.forEach(item => {
       this._itemsMap.set(item.id, item);
       this._childrenMap.set(item.id, []);
+      this._parentMap.set(item.id, item.parent);
 
       if (item.parent !== null && this._childrenMap.has(item.parent)) {
         this._childrenMap.get(item.parent)?.push(item);
@@ -75,8 +79,25 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   getAllParents(id: string | number): Array<TreeStoreItemInterface> {
-    // ToDo
-    return this[ITEMS_ID];
+    const parents: TreeStoreItemInterface[] = [this.getItem(id)];
+
+    const fillParents = (id: string | number) => {
+      const parentId = this._parentMap.get(id);
+
+      if (parentId !== null && parentId !== undefined) {
+        const parent = this._itemsMap.get(parentId);
+
+        if (parent) {
+          parents.push(parent)
+
+          fillParents(parent.id)
+        }
+      }
+    }
+
+    fillParents(id);
+
+    return parents;
   }
 
   addItem(item: TreeStoreItemInterface): void {

@@ -108,6 +108,8 @@ describe('TreeStore', () => {
       { id: '91064cee', parent: 1, label: 'Айтем 2' },
       { id: 1, parent: null, label: 'Айтем 1' },
     ]);
+
+    expect(() => treeStore.getItem(123)).to.throw(ItemDoesNotExist);
   });
 
   it('addItem', () => {
