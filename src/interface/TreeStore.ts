@@ -9,6 +9,7 @@ interface TreeStoreItemInterface {
 interface TreeStoreInterface {
   _items: Array<TreeStoreItemInterface>
   _itemsMap: Map<string | number, TreeStoreItemInterface>
+  _childrenMap: Map<string | number, TreeStoreItemInterface[]>
 
   [ITEMS_ID]: Array<TreeStoreItemInterface>
 

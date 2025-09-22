@@ -5,21 +5,29 @@ import ItemDoesNotExist from '@/error/treeStore/ItemDoesNotExist.ts';
 export default class TreeStore implements TreeStoreInterface {
   _items: Array<TreeStoreItemInterface>
   _itemsMap: Map<string | number, TreeStoreItemInterface>
+  _childrenMap: Map<string | number, TreeStoreItemInterface[]>
   [ITEMS_ID]: Array<TreeStoreItemInterface>
 
   constructor(items: Array<TreeStoreItemInterface>) {
     this[ITEMS_ID] = items;
     this._items = items;
     this._itemsMap = new Map();
+    this._childrenMap = new Map();
 
     this.buildTree(items);
   }
 
   private buildTree(items: Array<TreeStoreItemInterface>): void {
     this._itemsMap.clear();
+    this._childrenMap.clear();
 
     items.forEach(item => {
       this._itemsMap.set(item.id, item);
+      this._childrenMap.set(item.id, []);
+
+      if (item.parent !== null && this._childrenMap.has(item.parent)) {
+        this._childrenMap.get(item.parent)?.push(item);
+      }
     });
   }
 
@@ -28,7 +36,7 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   getItem(id: string | number): TreeStoreItemInterface {
-    const item = this._itemsMap.get(id)
+    const item = this._itemsMap.get(id);
 
     if (item) {
       return item;
@@ -38,8 +46,13 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   getChildren(id: string | number): Array<TreeStoreItemInterface> {
-    // ToDo
-    return this[ITEMS_ID];
+    const children = this._childrenMap.get(id);
+
+    if (children === undefined) {
+      throw new ItemDoesNotExist(id);
+    }
+
+    return children || [];
   }
 
   getAllChildren(id: string | number): Array<TreeStoreItemInterface> {

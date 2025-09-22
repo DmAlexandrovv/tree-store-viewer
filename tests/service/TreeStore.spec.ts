@@ -60,6 +60,8 @@ describe('TreeStore', () => {
     ]);
 
     expect(treeStore.getChildren(7)).to.deep.equal([]);
+
+    expect(() => treeStore.getItem(123)).to.throw(ItemDoesNotExist);
   });
 
   it('getAllChildren', () => {
