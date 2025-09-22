@@ -7,6 +7,9 @@ interface TreeStoreItemInterface {
 }
 
 interface TreeStoreInterface {
+  _items: Array<TreeStoreItemInterface>
+  _itemsMap: Map<string | number, TreeStoreItemInterface>
+
   [ITEMS_ID]: Array<TreeStoreItemInterface>
 
   getAll(): Array<TreeStoreItemInterface>

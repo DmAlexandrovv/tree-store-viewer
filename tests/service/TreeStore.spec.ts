@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import TreeStore from '../../src/service/TreeStore';
 import type { TreeStoreItemInterface } from '../../src/interface/TreeStore';
+import ItemDoesNotExist from '../../src/error/treeStore/ItemDoesNotExist';
 
 const items: Array<TreeStoreItemInterface> = [
   { id: 1, parent: null, label: 'Айтем 1' },
@@ -40,6 +41,8 @@ describe('TreeStore', () => {
       parent: 4,
       label: 'Айтем 7'
     });
+
+    expect(() => treeStore.getItem(123)).to.throw(ItemDoesNotExist);
   });
 
   it('getChildren', () => {
