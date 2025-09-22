@@ -56,8 +56,22 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   getAllChildren(id: string | number): Array<TreeStoreItemInterface> {
-    // ToDo
-    return this[ITEMS_ID];
+    const children: TreeStoreItemInterface[] = [];
+    const fillChildren = (id: string | number) => {
+      const currentItemChildren = this.getChildren(id);
+
+      if (currentItemChildren.length > 0) {
+        children.push(...currentItemChildren);
+
+        for (const item of currentItemChildren) {
+          fillChildren(item.id);
+        }
+      }
+    }
+
+    fillChildren(id);
+
+    return children;
   }
 
   getAllParents(id: string | number): Array<TreeStoreItemInterface> {
