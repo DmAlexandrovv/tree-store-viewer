@@ -145,22 +145,18 @@ describe('TreeStore', () => {
 
     treeStore.removeItem(7)
 
-    // ToDo check to null or throwed exception
-    // expect(treeStore.getItem(7)).to.deep.equal(null);
+    expect(() => treeStore.getItem(7)).to.throw(ItemDoesNotExist);
 
     treeStore.removeItem('91064cee')
 
-    // ToDo check to null or throwed exception
-    // expect(treeStore.getItem('91064cee')).to.deep.equal(null);
-    // expect(treeStore.getItem(4)).to.deep.equal(null);
-    // expect(treeStore.getItem(5)).to.deep.equal(null);
-    // expect(treeStore.getItem(6)).to.deep.equal(null);
-    // expect(treeStore.getItem(7)).to.deep.equal(null);
-    // expect(treeStore.getItem(8)).to.deep.equal(null);
+    expect(() => treeStore.getItem('91064cee')).to.throw(ItemDoesNotExist);
+    expect(() => treeStore.getItem(4)).to.throw(ItemDoesNotExist);
+    expect(() => treeStore.getItem(5)).to.throw(ItemDoesNotExist);
+    expect(() => treeStore.getItem(6)).to.throw(ItemDoesNotExist);
+    expect(() => treeStore.getItem(7)).to.throw(ItemDoesNotExist);
+    expect(() => treeStore.getItem(8)).to.throw(ItemDoesNotExist);
 
-    treeStore.removeItem(123)
-
-    // ToDo check to throwed exception - remove non existed item
+    expect(() => treeStore.removeItem(123)).to.throw(ItemDoesNotExist);
   });
 
   it('updateItem', () => {

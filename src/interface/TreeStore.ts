@@ -1,5 +1,3 @@
-const ITEMS_ID = Symbol('items')
-
 interface TreeStoreItemInterface {
   id: string|number
   parent: string|number|null
@@ -11,8 +9,6 @@ interface TreeStoreInterface {
   _itemsMap: Map<string | number, TreeStoreItemInterface>
   _childrenMap: Map<string | number, TreeStoreItemInterface[]>
   _parentMap: Map<string | number, string | number | null>
-
-  [ITEMS_ID]: Array<TreeStoreItemInterface>
 
   getAll(): Array<TreeStoreItemInterface>
 
@@ -34,8 +30,4 @@ interface TreeStoreInterface {
 export type {
   TreeStoreItemInterface,
   TreeStoreInterface,
-}
-
-export {
-  ITEMS_ID
 }

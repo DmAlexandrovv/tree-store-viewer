@@ -1,5 +1,4 @@
 import type { TreeStoreInterface, TreeStoreItemInterface } from '@/interface/TreeStore.ts';
-import { ITEMS_ID } from '@/interface/TreeStore.ts';
 import ItemDoesNotExist from '@/error/treeStore/ItemDoesNotExist.ts';
 import ItemDuplicate from '@/error/treeStore/ItemDuplicate.ts';
 
@@ -8,10 +7,8 @@ export default class TreeStore implements TreeStoreInterface {
   _itemsMap: Map<string | number, TreeStoreItemInterface>
   _childrenMap: Map<string | number, TreeStoreItemInterface[]>
   _parentMap: Map<string | number, string | number | null>
-  [ITEMS_ID]: Array<TreeStoreItemInterface>
 
   constructor(items: Array<TreeStoreItemInterface>) {
-    this[ITEMS_ID] = items;
     this._items = items;
     this._itemsMap = new Map();
     this._childrenMap = new Map();
@@ -116,7 +113,28 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   removeItem(id: string | number): void {
-    // ToDo
+    if (!this._itemsMap.has(id)) {
+      throw new ItemDoesNotExist(id);
+    }
+
+    const item = this._itemsMap.get(id);
+    const children = this.getAllChildren(id);
+
+    children.forEach(child => {
+      this._itemsMap.delete(child.id);
+      this._parentMap.delete(child.id);
+      this._childrenMap.delete(child.id);
+    });
+
+    this._itemsMap.delete(id);
+    this._parentMap.delete(id);
+    this._childrenMap.delete(id);
+
+    if (item && item.parent !== null) {
+      const parentChildren = this._childrenMap.get(item.parent) || [];
+
+      this._childrenMap.set(item.parent, parentChildren.filter(child => child.id !== item.id));
+    }
   }
 
   updateItem(item: TreeStoreItemInterface): void {
