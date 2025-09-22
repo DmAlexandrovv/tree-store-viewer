@@ -178,9 +178,21 @@ describe('TreeStore', () => {
       label: 'Айтем 123123'
     });
 
-    treeStore.updateItem({ id: 123, parent: null, label: 'Айтем 123' })
+    expect(treeStore.getAllChildren(1)).to.deep.equal([
+      { id: 3, parent: 1, label: 'Айтем 3' },
+    ]);
 
-    // ToDo check to null or throwed exception - update non existing item
-    // expect(treeStore.getItem(123)).to.deep.equal(null);
+    treeStore.updateItem({ id: 8, parent: 1, label: 'Айтем 8' })
+
+    expect(treeStore.getChildren(1)).to.deep.equal([
+      { id: 3, parent: 1, label: 'Айтем 3' },
+      { id: 8, parent: 1, label: 'Айтем 8' },
+    ]);
+
+    expect(() => treeStore.updateItem({
+      id: 123,
+      parent: null,
+      label: 'Айтем 123'
+    })).to.throw(ItemDoesNotExist);
   });
 })

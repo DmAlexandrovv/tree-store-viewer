@@ -138,6 +138,25 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   updateItem(item: TreeStoreItemInterface): void {
-    // ToDo
+    const oldItem = this._itemsMap.get(item.id);
+
+    if (oldItem === undefined) {
+      throw new ItemDoesNotExist(item.id);
+    }
+
+    if (oldItem.parent !== item.parent) {
+      if (oldItem.parent !== null) {
+        const oldParentChildren = this._childrenMap.get(oldItem.parent) || [];
+
+        this._childrenMap.set(oldItem.parent, oldParentChildren.filter(child => child.id !== oldItem.id));
+      }
+
+      if (item.parent !== null && this._childrenMap.has(item.parent)) {
+        this._childrenMap.get(item.parent)?.push(item);
+      }
+    }
+
+    this._itemsMap.set(item.id, item);
+    this._parentMap.set(item.id, item.parent);
   }
 }
