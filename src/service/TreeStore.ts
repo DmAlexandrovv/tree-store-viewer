@@ -1,6 +1,7 @@
 import type { TreeStoreInterface, TreeStoreItemInterface } from '@/interface/TreeStore.ts';
 import { ITEMS_ID } from '@/interface/TreeStore.ts';
 import ItemDoesNotExist from '@/error/treeStore/ItemDoesNotExist.ts';
+import ItemDuplicate from '@/error/treeStore/ItemDuplicate.ts';
 
 export default class TreeStore implements TreeStoreInterface {
   _items: Array<TreeStoreItemInterface>
@@ -101,7 +102,17 @@ export default class TreeStore implements TreeStoreInterface {
   }
 
   addItem(item: TreeStoreItemInterface): void {
-    // ToDo
+    if (this._itemsMap.has(item.id)) {
+      throw new ItemDuplicate(item.id);
+    }
+
+    this._itemsMap.set(item.id, item);
+    this._parentMap.set(item.id, item.parent);
+    this._childrenMap.set(item.id, []);
+
+    if (item.parent !== null && this._childrenMap.has(item.parent)) {
+      this._childrenMap.get(item.parent)?.push(item);
+    }
   }
 
   removeItem(id: string | number): void {
