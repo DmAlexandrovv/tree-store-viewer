@@ -2,8 +2,7 @@ import { describe, it, expect } from 'vitest';
 import TreeStore from '../../src/service/TreeStore';
 import type { TreeStoreItemInterface } from '../../src/interface/TreeStore';
 import ItemDoesNotExist from '../../src/error/treeStore/ItemDoesNotExist';
-import itemDuplicate from '../../src/error/treeStore/ItemDuplicate';
-import ItemDuplicate from "../../src/error/treeStore/ItemDuplicate";
+import ItemDuplicate from '../../src/error/treeStore/ItemDuplicate';
 
 const items: Array<TreeStoreItemInterface> = [
   { id: 1, parent: null, label: 'Айтем 1' },
