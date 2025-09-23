@@ -1,39 +1,69 @@
-# .
+Tree Store Viewer - Визуализатор древовидных структур
+=====================================================
 
-This template should help get you started developing with Vue 3 in Vite.
+Класс для работы с деревьями с полным покрытием тестами. Библиотека предоставляет удобные методы для управления и визуализации древовидных структур данных.
 
-## Recommended IDE Setup
+📋 Требования
+-------------
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+*   **Node.js** - v22.12.0
 
-## Type Support for `.vue` Imports in TS
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+🚀 Быстрый старт
+----------------
 
-## Customize configuration
+### Установка зависимостей
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+```npm install```
 
-## Project Setup
+### Запуск в режиме разработки с горячей перезагрузкой
 
-```sh
-npm install
+```npm run dev```
+
+
+### Сборка
+
+```npm run build```
+
+### Превью сборки
+
+```npm run preview```
+
+
+🧪 Тестирование
+---------------
+
+### Запуск тестов
+
+```npm run test:run```
+
+📁 Структура проекта
+--------------------
+
+```
+tree-store-viewer/ 
+    ├── src/ # Исходный код 
+    ├── tests/ # Тесты  
 ```
 
-### Compile and Hot-Reload for Development
+💡 Особенности
+--------------
 
-```sh
-npm run dev
-```
+*   **TypeScript**
 
-### Type-Check, Compile and Minify for Production
+*   **Тестовое покрытие**
 
-```sh
-npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
+🔧 Технологии
+-------------
 
-```sh
-npm run lint
-```
+*   TypeScript
+
+*   Vitest
+
+*   ESLint
+
+*   Vite
+
+
+_Разработано с ❤️ для удобной работы с древовидными структурами_
