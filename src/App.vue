@@ -83,7 +83,8 @@ const columnDefs = ref<ColDef[]>([
 
 const items = computed(() => treeStore.value.getAll())
 
-const getRowId = (params) => params.data.id;
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+const getRowId = (params: any) => params.data.id;
 </script>
 
 <template>
